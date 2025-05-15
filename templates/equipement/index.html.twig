@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des équipements{% endblock %}
+
+{% block body %}
+    <h1>Liste des équipements</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Quantité</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipement in equipements %}
+                <tr>
+                    <td>{{ equipement.id }}</td>
+                    <td>{{ equipement.nom }}</td>
+                    <td>{{ equipement.quantite }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucun équipement trouvé.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
