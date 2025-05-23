@@ -31,4 +31,14 @@ class EquipementController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/equipements', name: 'equipement_index')]
+    public function index(EntityManagerInterface $em): Response
+    {
+        $equipements = $em->getRepository(Equipement::class)->findAll();
+
+        return $this->render('equipement/index.html.twig', [
+            'equipements' => $equipements,
+        ]);
+    }
 }

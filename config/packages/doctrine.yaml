@@ -20,7 +20,7 @@ doctrine:
         mappings:
             App:
                 type: attribute
-                is_bundle: false
+                is_bundle: false 
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App

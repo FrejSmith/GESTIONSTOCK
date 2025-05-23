@@ -10,18 +10,20 @@
                 <th>ID</th>
                 <th>Nom</th>
                 <th>Quantité</th>
+                <th>Prix</th>
             </tr>
         </thead>
         <tbody>
             {% for equipement in equipements %}
                 <tr>
                     <td>{{ equipement.id }}</td>
-                    <td>{{ equipement.nom }}</td>
-                    <td>{{ equipement.quantite }}</td>
+                    <td>{{ equipement.name }}</td>
+                    <td>{{ equipement.quantity }}</td>
+                    <td>{{ equipement.price }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="3">Aucun équipement trouvé.</td>
+                    <td colspan="4">Aucun équipement trouvé.</td>
                 </tr>
             {% endfor %}
         </tbody>
