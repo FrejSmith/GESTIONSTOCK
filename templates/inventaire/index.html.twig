@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Transactions{% endblock %}
+
+{% block body %}
+    <h1>Gestion des Transactions</h1>
+
+    <h2>Ajouter une Transaction</h2>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit">Enregistrer</button>
+    {{ form_end(form) }}
+
+    <h2>Liste des Transactions</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Quantité</th>
+                <th>Date</th>
+                <th>Équipement</th>
+                <th>Utilisateur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.Type }}</td>
+                    <td>{{ transaction.quantite }}</td>
+                    <td>{{ transaction.Date|date('Y-m-d') }}</td>
+                    <td>{{ transaction.equipement.name }}</td>
+                    <td>{{ transaction.utilisateur.nom }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('homepage') }}">Retour à l'accueil</a>
+{% endblock %}

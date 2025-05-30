@@ -1,0 +1,13 @@
+{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/admin/dashboard.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+    <h1>Tableau de bord</h1>
+    <div>
+        <p>Total des articles : {{ stats.total_items }}</p>
+        <p>Alertes de stock faible : {{ stats.low_stock_alerts }}</p>
+        <p>Total des catégories : {{ stats.total_categories }}</p>
+    </div>
+{% endblock %}

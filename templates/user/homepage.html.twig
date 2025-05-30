@@ -1,0 +1,17 @@
+{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/user/homepage.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Gestion de Stock{% endblock %}
+
+{% block body %}
+    <header>
+        <h1>Bienvenue sur notre site d'inventaire</h1>
+    </header>
+
+    <section id="actions">
+        <h2>Actions disponibles</h2>
+        <div class="buttons">
+            <a href="{{ path('catalogue') }}" class="btn">Voir le catalogue</a>
+        </div>
+    </section>
+{% endblock %}

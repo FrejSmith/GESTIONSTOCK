@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EquipementController extends AbstractController
 {
-    #[Route('/equipements/new', name: 'equipement_new')]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    #[Route('/equipement/new', name: 'equipement_new')]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $equipement = new Equipement();
         $form = $this->createForm(EquipementType::class, $equipement);
@@ -21,10 +21,12 @@ class EquipementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($equipement);
-            $em->flush();
+            $entityManager->persist($equipement);
+            $entityManager->flush();
 
-            return $this->redirectToRoute('equipement_index');
+            $this->addFlash('success', 'Équipement enregistré avec succès !');
+
+            return $this->redirectToRoute('homepage'); // Redirige vers la page d'accueil
         }
 
         return $this->render('equipement/new.html.twig', [

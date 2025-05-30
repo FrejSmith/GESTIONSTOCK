@@ -1,0 +1,10 @@
+{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/client/dashboard.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Client{% endblock %}
+
+{% block body %}
+    <h1>Espace Client</h1>
+    <p>{{ message }}</p>
+    <a href="{{ path('app_logout') }}" class="btn btn-danger">Déconnexion</a>
+{% endblock %}

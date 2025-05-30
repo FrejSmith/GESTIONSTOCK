@@ -1,0 +1,32 @@
+{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/admin/users.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Utilisateurs{% endblock %}
+
+{% block body %}
+    <h1>Gestion des Utilisateurs</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Rôle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.Nom }}</td>
+                    <td>{{ user.Email }}</td>
+                    <td>{{ user.Role }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun utilisateur disponible.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,42 @@
+{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/admin/equipements/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des équipements{% endblock %}
+
+{% block body %}
+    <h1>Liste des équipements</h1>
+    <a href="{{ path('admin_equipements_ajouter') }}" class="btn btn-success">Ajouter un équipement</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th>Prix</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipement in equipements %}
+                <tr>
+                    <td>{{ equipement.id }}</td>
+                    <td>{{ equipement.name }}</td>
+                    <td>{{ equipement.category }}</td>
+                    <td>{{ equipement.price }}</td>
+                    <td>
+                        <a href="{{ path('admin_equipements_modifier', { id: equipement.id }) }}" class="btn btn-primary btn-sm">Modifier</a>
+                        <a href="{{ path('admin_equipements_supprimer', { id: equipement.id }) }}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet équipement ?');">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function confirmSuppression() {
+            return confirm('Êtes-vous sûr de vouloir supprimer cet équipement ?');
+        }
+    </script>
+{% endblock %}

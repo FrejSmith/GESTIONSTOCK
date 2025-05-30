@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter un équipement{% endblock %}
+{% block title %}Ajouter un Équipement{% endblock %}
 
 {% block body %}
-    <h1>Ajouter un équipement</h1>
+    <h1>Ajouter un Équipement</h1>
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <button class="btn btn-primary">Enregistrer</button>
+        <button type="submit">Enregistrer</button>
     {{ form_end(form) }}
-    <a href="{{ path('equipement_index') }}">Retour à la liste</a>
+    <a href="{{ path('homepage') }}">Retour à l'accueil</a>
 {% endblock %}

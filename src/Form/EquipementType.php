@@ -3,8 +3,9 @@ namespace App\Form;
 
 use App\Entity\Equipement;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,14 +15,20 @@ class EquipementType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom du produit',
+                'label' => 'Nom de l\'équipement',
             ])
-            ->add('quantity', NumberType::class, [
-                'label' => 'Quantité',
+            ->add('category', TextType::class, [
+                'label' => 'Catégorie',
             ])
             ->add('price', NumberType::class, [
-                'label' => 'Prix (€)',
-                'scale' => 2,
+                'label' => 'Prix',
+            ])
+            ->add('stock', NumberType::class, [
+                'label' => 'Stock',
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description',
+                'required' => false,
             ]);
     }
 

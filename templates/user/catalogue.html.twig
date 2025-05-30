@@ -1,0 +1,32 @@
+{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/user/catalogue.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Catalogue{% endblock %}
+
+{% block body %}
+    <h1>Catalogue des équipements</h1>
+    <table class="inventory">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th>Prix</th>
+                <th>Disponibilité</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipement in equipements %}
+                <tr>
+                    <td>{{ equipement.name }}</td>
+                    <td>{{ equipement.category }}</td>
+                    <td>{{ equipement.price }} €</td>
+                    <td>{{ equipement.stock > 0 ? 'En stock' : 'Rupture' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun équipement disponible.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

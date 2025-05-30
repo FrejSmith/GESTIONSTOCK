@@ -1,0 +1,93 @@
+{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/public/home.html.twig #}
+{# filepath: templates/home/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Gestion de Stock{% endblock %}
+
+{% block body %}
+    <nav id="navbar">
+        <ul>
+            <li><a href="#header">Accueil</a></li>
+            <li><a href="#features-section">Services</a></li>
+            <li><a href="#pricing-section">Tarifs</a></li>
+            <li><a href="#contact-section">Contactez-nous</a></li>
+        </ul>
+    </nav>
+
+    <header id="header">
+        <h1>Bienvenue sur la Gestion de Stock</h1>
+    </header>
+
+    <section id="marquee">
+        <div class="marquee-container">
+            <p>Gérez l'inventaire et surveillez les actifs tout au long de leur cycle de vie !</p>
+        </div>
+    </section>
+
+    <section id="carousel">
+        <div class="carousel-container">
+            <div class="carousel-slide">
+                <img src="{{ asset('images/gest1.jpeg') }}" alt="">
+                <img src="{{ asset('images/gest2.jpeg') }}" alt="">
+                <img src="{{ asset('images/gest3.webp') }}" alt="">
+                <img src="{{ asset('images/gest4.webp') }}" alt="">
+            </div>
+        </div>
+    </section>
+
+    <section id="features-section">
+        <h2>Plus de fonctions pour améliorer votre prestation de service</h2>
+        <div class="features-container">
+            <div class="feature-box">
+                <h3>Automatisation</h3>
+                <p>Configurez de simples fonctions d'automatisation dans votre outil de gestion des actifs informatiques en ligne et tirez profit des capacités intégrées pour gérer toutes vos tâches manuelles. Priorisez, catégorisez, assignez et fermez les tickets.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Reporting</h3>
+                <p>Identifiez les goulets d’étranglement, prenez des décisions éclairées, surveillez la performance du logiciel de gestion des actifs informatiques ITIL basé sur le cloud, et améliorez la prestation de service grâce à des capacités de production de rapports prédéfinis et personnalisés.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Découverte automatique des actifs</h3>
+                <p>Identifiez tous les actifs de votre organisation en utilisant les outils de découverte qui analysent et cartographient automatiquement tout le matériel et les logiciels et mettent aussi périodiquement à jour les données des actifs.</p>
+            </div>
+            <div class="feature-box">
+                <h3>CMDB/ Gestion des configurations</h3>
+                <p>Conservez un répertoire complet de tous les actifs de l'organisation avec la visibilité détaillée sur la façon dont ils sont connectés les uns aux autres grâce à un système de gestion des configurations en mode SaaS. Identifiez facilement les actifs essentiels, et analysez l'impact des incidents et des changements.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Gestion du cycle de vie des actifs</h3>
+                <p>Gérez et surveillez tous vos actifs sur un seul écran, où que vous soyez et quelle que soit l’étape : l'approvisionnement, la maintenance, la dépréciation ou bien l'élimination. Obtenez la chronologie de tous les évènements d'un coup d'œil rapide sur votre solution de centre de support basée sur le web.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Gestion des contrats</h3>
+                <p>Conservez un fichier des contrats avec les fournisseurs tiers et soyez averti des expirations et des approbations grâce au planificateur de contrat basé sur le cloud.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing-section">
+        <h2>Tarifs</h2>
+        <p>Découvrez nos offres adaptées à vos besoins.</p>
+        <ul>
+            <li>Offre Basique : 50€/mois</li>
+            <li>Offre Avancée : 100€/mois</li>
+            <li>Offre Premium : 200€/mois</li>
+        </ul>
+    </section>
+
+    <section id="contact-section">
+        <h2>Contactez-nous</h2>
+        <p>Pour toute question ou demande, contactez-nous à <a href="mailto:contact@gestionstock.com">contact@gestionstock.com</a>.</p>
+    </section>
+
+    <section id="actions">
+        <h2>Actions disponibles</h2>
+        <div class="buttons">
+            <a href="{{ path('inventaire_index') }}" class="btn">Accéder à la gestion des transactions</a>
+        </div>
+    </section>
+    <div class="content">
+        <p>{{ message }}</p>
+        <a href="{{ path('public_equipements') }}" style="color: #23395d; text-decoration: none;">Voir nos équipements</a>
+    </div>
+{% endblock %}    

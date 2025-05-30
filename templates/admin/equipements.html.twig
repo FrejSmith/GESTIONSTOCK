@@ -1,0 +1,33 @@
+{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/admin/equipements.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des équipements{% endblock %}
+
+{% block body %}
+    <h1>Liste des équipements</h1>
+    <a href="{{ path('admin_equipements_ajouter') }}" class="btn btn-success">Ajouter un équipement</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th>Prix</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipement in equipements %}
+                <tr>
+                    <td>{{ equipement.id }}</td>
+                    <td>{{ equipement.name }}</td>
+                    <td>{{ equipement.category }}</td>
+                    <td>{{ equipement.price }}</td>
+                    <td>
+                        <a href="#">Modifier</a> | <a href="#">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

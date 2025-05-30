@@ -17,13 +17,13 @@ class TransactionInventaire
     private ?string $Type = null;
 
     #[ORM\Column]
-    private ?int $Quantité = null;
+    private ?int $quantite = null;
 
     #[ORM\Column]
     private ?\DateTime $Date = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $EquipementId = null;
+    // #[ORM\Column(length: 255)]
+    // private ?string $EquipementId = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -50,14 +50,14 @@ class TransactionInventaire
         return $this;
     }
 
-    public function getQuantité(): ?int
+    public function getQuantite(): ?int
     {
-        return $this->Quantité;
+        return $this->quantite;
     }
 
-    public function setQuantité(int $Quantité): static
+    public function setQuantite(int $quantite): static
     {
-        $this->Quantité = $Quantité;
+        $this->quantite = $quantite;
 
         return $this;
     }
@@ -74,17 +74,17 @@ class TransactionInventaire
         return $this;
     }
 
-    public function getEquipementId(): ?string
-    {
-        return $this->EquipementId;
-    }
+    // public function getEquipementId(): ?string
+    // {
+    //     return $this->EquipementId;
+    // }
 
-    public function setEquipementId(string $EquipementId): static
-    {
-        $this->EquipementId = $EquipementId;
+    // public function setEquipementId(string $EquipementId): static
+    // {
+    //     $this->EquipementId = $EquipementId;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getEquipement(): ?Equipement
     {
