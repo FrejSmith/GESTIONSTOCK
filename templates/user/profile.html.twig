@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue, {{ user.userIdentifier }} !</h1>
+    <h2>Mon inventaire</h2>
+    <p><strong>Total d'équipements enregistrés :</strong> {{ total }}</p>
+    {% if transactions|length == 0 %}
+    <p>Aucun équipement dans votre inventaire.</p>
+{% endif %}
+<a href="{{ path('user_inventaire_ajout') }}" class="btn btn-primary mb-3">
+    ➕ Ajouter un équipement à mon inventaire
+</a>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Équipement</th>
+                <th>Catégorie</th>
+                <th>Quantité</th>
+                <th>Type</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.equipement.nom }}</td>
+                <td>{{ transaction.equipement.categorie.nom }}</td>
+                <td>{{ transaction.quantite }}</td>
+                <td>{{ transaction.type }}</td>
+                <td>{{ transaction.date|date('d/m/Y') }}</td>
+            </tr>
+            
+        {% else %}
+            <tr>
+                <td colspan="5">Aucune transaction trouvée.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,7 +1,10 @@
 <?php
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity]
 class Equipement
@@ -14,9 +17,6 @@ class Equipement
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $category = null;
-
     #[ORM\Column(type: 'float')]
     private ?float $price = null;
 
@@ -25,6 +25,19 @@ class Equipement
 
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description = null;
+
+    // Relation inverse vers TransactionInventaire
+    #[ORM\OneToMany(mappedBy: 'equipement', targetEntity: TransactionInventaire::class)]
+    private Collection $transactions;
+
+    #[ORM\ManyToOne(inversedBy: 'equipements')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Categorie $categorie = null;
+
+    public function __construct()
+    {
+        $this->transactions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -39,17 +52,6 @@ class Equipement
     public function setName(string $name): self
     {
         $this->name = $name;
-        return $this;
-    }
-
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(string $category): self
-    {
-        $this->category = $category;
         return $this;
     }
 
@@ -83,6 +85,28 @@ class Equipement
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+        return $this;
+    }
+
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name ?? '';
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): static
+    {
+        $this->categorie = $categorie;
+
         return $this;
     }
 }

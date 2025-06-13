@@ -14,6 +14,7 @@
                 <th>Catégorie</th>
                 <th>Prix</th>
                 <th>Actions</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -21,7 +22,7 @@
                 <tr>
                     <td>{{ equipement.id }}</td>
                     <td>{{ equipement.name }}</td>
-                    <td>{{ equipement.category }}</td>
+                    <td>{{ equipement.categorie.nom }}</td>
                     <td>{{ equipement.price }}</td>
                     <td>
                         <a href="#">Modifier</a> | <a href="#">Supprimer</a>

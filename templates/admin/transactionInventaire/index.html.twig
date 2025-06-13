@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des transactions d'inventaire{% endblock %}
+
+{% block body %}
+    <h1>Transactions d'inventaire</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Équipement</th>
+                <th>Catégorie</th>
+                <th>Quantité</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transactionInventaire in transactionsInventaire %}
+                <tr>
+                    <td>{{ transactionInventaire.id }}</td>
+                    <td>{{ transactionInventaire.equipement.nom }}</td>
+                    <td>{{ transactionInventaire.equipement.categorie.nom }}</td>
+                    <td>{{ transactionInventaire.quantite }}</td>
+                    <td>{{ transactionInventaire.date|date('d/m/Y') }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

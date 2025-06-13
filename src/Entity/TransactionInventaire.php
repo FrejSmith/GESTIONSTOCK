@@ -4,34 +4,33 @@ namespace App\Entity;
 
 use App\Repository\TransactionInventaireRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTimeInterface;
 
 #[ORM\Entity(repositoryClass: TransactionInventaireRepository::class)]
+#[ORM\Table(name: 'transaction_inventaire')]
 class TransactionInventaire
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Type = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $type = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $quantite = null;
 
-    #[ORM\Column]
-    private ?\DateTime $Date = null;
+    #[ORM\Column(type: 'datetime')]
+    private ?DateTimeInterface $date = null;
 
-    // #[ORM\Column(length: 255)]
-    // private ?string $EquipementId = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Equipement::class, inversedBy: 'transactions')]
+    #[ORM\JoinColumn(name: 'equipement_id', referencedColumnName: 'id', nullable: false)]
     private ?Equipement $equipement = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $utilisateur = null;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'transactions')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -40,13 +39,12 @@ class TransactionInventaire
 
     public function getType(): ?string
     {
-        return $this->Type;
+        return $this->type;
     }
 
-    public function setType(string $Type): static
+    public function setType(?string $type): self
     {
-        $this->Type = $Type;
-
+        $this->type = $type;
         return $this;
     }
 
@@ -55,58 +53,52 @@ class TransactionInventaire
         return $this->quantite;
     }
 
-    public function setQuantite(int $quantite): static
+    public function setQuantite(?int $quantite): self
     {
         $this->quantite = $quantite;
-
         return $this;
     }
 
-    public function getDate(): ?\DateTime
+    public function getDate(): ?DateTimeInterface
     {
-        return $this->Date;
+        return $this->date;
     }
 
-    public function setDate(\DateTime $Date): static
+    public function setDate(?DateTimeInterface $date): self
     {
-        $this->Date = $Date;
-
+        $this->date = $date;
         return $this;
     }
-
-    // public function getEquipementId(): ?string
-    // {
-    //     return $this->EquipementId;
-    // }
-
-    // public function setEquipementId(string $EquipementId): static
-    // {
-    //     $this->EquipementId = $EquipementId;
-
-    //     return $this;
-    // }
 
     public function getEquipement(): ?Equipement
     {
         return $this->equipement;
     }
 
-    public function setEquipement(?Equipement $equipement): static
+    public function setEquipement(?Equipement $equipement): self
     {
         $this->equipement = $equipement;
-
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function getUser(): ?User
     {
-        return $this->utilisateur;
+        return $this->user;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): static
+    public function setUser(?User $user): self
     {
-        $this->utilisateur = $utilisateur;
-
+        $this->user = $user;
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf(
+            'Transaction #%d - %s %s',
+            $this->id,
+            $this->type,
+            $this->equipement?->getName() ?? ''
+        );
     }
 }

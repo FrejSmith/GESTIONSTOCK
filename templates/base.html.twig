@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="{{ asset('images/favicon.ico') }}">
-
+        
         {# Bloc pour inclure les fichiers CSS #}
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -14,8 +14,6 @@
     <body>
         {% if app.user %}
             <a href="{{ path('app_logout') }}">Déconnexion</a>
-        {% else %}
-            <a href="{{ path('app_login') }}">Connexion</a>
         {% endif %}
         
         {% if stats is defined %}

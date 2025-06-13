@@ -20,7 +20,7 @@ class EquipementTypeForm extends AbstractType
             ->add('NumeroDeSerie')
             ->add('Quantité')
             ->add('Statut')
-            ->add('catégorie', EntityType::class, [
+            ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
                 'choice_label' => 'id',
             ])

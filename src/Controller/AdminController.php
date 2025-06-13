@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Equipement; // Utilisez l'entité Equipement
-use App\Entity\Utilisateur; // Import de l'entité Utilisateur
+use App\Entity\User; // Import de l'entité User
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Form\EquipementType;
 
-#[Route('/admin', name: 'admin_')]
+// #[Route('/admin', name: 'admin_')]
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'dashboard')]
@@ -32,12 +32,12 @@ class AdminController extends AbstractController
     #[Route('/users', name: 'users')]
     public function manageUsers(EntityManagerInterface $entityManager): Response
     {
-        // Récupérer les utilisateurs depuis la base de données
-        $utilisateurs = $entityManager->getRepository(Utilisateur::class)->findAll();
+        // Récupérer les user depuis la base de données
+        $user = $entityManager->getRepository(User::class)->findAll();
 
-        // Passer les utilisateurs à la vue
+        // Passer les user à la vue
         return $this->render('admin/users.html.twig', [
-            'users' => $utilisateurs, // Transmettez les utilisateurs à la vue
+            'users' => $user, // Transmettez les utilisateurs à la vue
         ]);
     }
 

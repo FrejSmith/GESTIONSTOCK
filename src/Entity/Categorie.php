@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategorieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
@@ -14,10 +16,21 @@ class Categorie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Nom = null;
+    private ?string $nom = null; // minuscule
 
     #[ORM\Column(length: 255)]
-    private ?string $Description = null;
+    private ?string $description = null;
+
+    /**
+     * @var Collection<int, Equipement>
+     */
+    #[ORM\OneToMany(targetEntity: Equipement::class, mappedBy: 'categorie')]
+    private Collection $equipements;
+
+    public function __construct()
+    {
+        $this->equipements = new ArrayCollection();
+    } // minuscule
 
     public function getId(): ?int
     {
@@ -26,24 +39,52 @@ class Categorie
 
     public function getNom(): ?string
     {
-        return $this->Nom;
+        return $this->nom;
     }
 
-    public function setNom(string $Nom): static
+    public function setNom(string $nom): self
     {
-        $this->Nom = $Nom;
-
+        $this->nom = $nom;
         return $this;
     }
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(string $Description): static
+    public function setDescription(string $description): self
     {
-        $this->Description = $Description;
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Equipement>
+     */
+    public function getEquipements(): Collection
+    {
+        return $this->equipements;
+    }
+
+    public function addEquipement(Equipement $equipement): static
+    {
+        if (!$this->equipements->contains($equipement)) {
+            $this->equipements->add($equipement);
+            $equipement->setCategorie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipement(Equipement $equipement): static
+    {
+        if ($this->equipements->removeElement($equipement)) {
+            // set the owning side to null (unless already changed)
+            if ($equipement->getCategorie() === $this) {
+                $equipement->setCategorie(null);
+            }
+        }
 
         return $this;
     }

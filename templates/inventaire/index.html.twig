@@ -20,7 +20,7 @@
                 <th>Quantité</th>
                 <th>Date</th>
                 <th>Équipement</th>
-                <th>Utilisateur</th>
+                <th>User</th>
             </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
                     <td>{{ transaction.quantite }}</td>
                     <td>{{ transaction.Date|date('Y-m-d') }}</td>
                     <td>{{ transaction.equipement.name }}</td>
-                    <td>{{ transaction.utilisateur.nom }}</td>
+                    <td>{{ transaction.user.nom }}</td>
                 </tr>
             {% endfor %}
         </tbody>
