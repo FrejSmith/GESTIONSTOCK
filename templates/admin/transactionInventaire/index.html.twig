@@ -9,7 +9,7 @@
             <tr>
                 <th>ID</th>
                 <th>Équipement</th>
-                <th>Catégorie</th>
+                <th>Categorie</th>
                 <th>Quantité</th>
                 <th>Date</th>
             </tr>
@@ -18,8 +18,10 @@
             {% for transactionInventaire in transactionsInventaire %}
                 <tr>
                     <td>{{ transactionInventaire.id }}</td>
-                    <td>{{ transactionInventaire.equipement.nom }}</td>
-                    <td>{{ transactionInventaire.equipement.categorie.nom }}</td>
+                    <td>{{ transactionInventaire.equipement.name }}</td>
+                    <td>
+                        {{ transactionInventaire.equipement.categorie.nom ? transactionInventaire.equipement.categorie.nom : '' }}
+                    </td>
                     <td>{{ transactionInventaire.quantite }}</td>
                     <td>{{ transactionInventaire.date|date('d/m/Y') }}</td>
                 </tr>

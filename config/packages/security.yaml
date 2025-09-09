@@ -1,10 +1,8 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
                 class: App\Entity\User
@@ -21,20 +19,20 @@ security:
                 login_path: app_login
                 check_path: app_login
                 enable_csrf: true
-                default_target_path: user_profile    # <--- Mets ici le nom de ta route profil
-                always_use_default_target_path: true # <--- Toujours rediriger vers le profil
+                default_target_path: user_dashboard
             logout:
                 path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
+                target: public_home
 
-    access_control: []
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/inventaires/export, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
         password_hashers:
             Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
                 algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+                cost: 4
+                time_cost: 3
+                memory_cost: 10

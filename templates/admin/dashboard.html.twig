@@ -1,13 +1,224 @@
-{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/admin/dashboard.html.twig #}
+{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/admin/transactionInventaire/dashboard.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block title %}Tableau de bord Administrateur - Gestion des Transactions{% endblock %}
 
 {% block body %}
-    <h1>Tableau de bord</h1>
-    <div>
-        <p>Total des articles : {{ stats.total_items }}</p>
-        <p>Alertes de stock faible : {{ stats.low_stock_alerts }}</p>
-        <p>Total des catégories : {{ stats.total_categories }}</p>
-    </div>
+<div style="display:flex;min-height:100vh;background:#f4f6fa;">
+  <!-- Sidebar -->
+  <aside style="width:240px;background:#133366;color:#fff;display:flex;flex-direction:column;align-items:center;padding:32px 0;">
+    <div style="font-size:1.5em;font-weight:bold;margin-bottom:32px;">StockMaster</div>
+    <nav style="width:100%;">
+      <a href="{{ path('admin_dashboard') }}" style="display:flex;align-items:center;padding:14px 32px;color:#fff;text-decoration:none;font-size:1.07em;"><i class="fas fa-tachometer-alt mr-2"></i> Tableau de bord</a>
+      <a href="{{ path('produit_liste') }}" style="display:flex;align-items:center;padding:14px 32px;color:#fff;text-decoration:none;"><i class="fas fa-boxes mr-2"></i> Produits</a>
+      <a href="{{ path('inventaire_liste') }}" style="display:flex;align-items:center;padding:14px 32px;color:#fff;text-decoration:none;"><i class="fas fa-tags mr-2"></i> Inventaire</a>
+      <a href="{{ path('commande_liste') }}" style="display:flex;align-items:center;padding:14px 32px;color:#fff;text-decoration:none;"><i class="fas fa-file-alt mr-2"></i> Commandes</a>
+      <a href="{{ path('fournisseur_liste') }}" style="display:flex;align-items:center;padding:14px 32px;color:#fff;text-decoration:none;"><i class="fas fa-truck mr-2"></i> Fournisseurs</a>
+      <a href="{{ path('rapport_ventes') }}" style="display:flex;align-items:center;padding:14px 32px;color:#fff;text-decoration:none;"><i class="fas fa-chart-bar mr-2"></i> Rapports</a>
+      <a href="{{ path('admin_utilisateurs') }}" style="display:flex;align-items:center;padding:14px 32px;color:#fff;text-decoration:none;"><i class="fas fa-users mr-2"></i> Utilisateurs</a>
+      <a href="{{ path('admin_parametres') }}" style="display:flex;align-items:center;padding:14px 32px;color:#fff;text-decoration:none;"><i class="fas fa-cog mr-2"></i> Paramètres</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <div style="flex:1;display:flex;flex-direction:column;">
+    <!-- Header -->
+    <header style="background:#fff;box-shadow:0 2px 8px #13336611;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:70px;">
+      <div style="display:flex;align-items:center;gap:18px;">
+        <input type="text" placeholder="Rechercher..." style="padding:8px 16px;border-radius:8px;border:1px solid #e0e0e0;width:220px;">
+        <i class="fas fa-bell" style="font-size:1.3em;color:#377dff;cursor:pointer;"></i>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <img src="https://ui-avatars.com/api/?name=Admin&background=133366&color=fff&size=40" alt="Admin" style="border-radius:50%;width:40px;height:40px;">
+        <span style="font-weight:600;color:#133366;">Admin</span>
+        <div style="position:relative;">
+          <button onclick="alert('Menu profil à développer')" style="background:none;border:none;cursor:pointer;"><i class="fas fa-chevron-down"></i></button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard content -->
+    <main style="padding:36px 32px;">
+      <!-- Statistiques -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-bottom:36px;">
+        <div style="background:#fff;border-radius:14px;box-shadow:0 2px 8px #13336611;padding:28px 18px;display:flex;align-items:center;">
+          <div style="padding:14px;border-radius:50%;background:#e3f0ff;color:#377dff;margin-right:18px;">
+            <i class="fas fa-boxes" style="font-size:1.5em;"></i>
+          </div>
+          <div>
+            <div style="color:#556080;">Produits</div>
+            <div style="font-size:1.7em;font-weight:bold;" id="totalProducts">0</div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:14px;box-shadow:0 2px 8px #13336611;padding:28px 18px;display:flex;align-items:center;">
+          <div style="padding:14px;border-radius:50%;background:#e6fbe9;color:#24b47e;margin-right:18px;">
+            <i class="fas fa-check-circle" style="font-size:1.5em;"></i>
+          </div>
+          <div>
+            <div style="color:#556080;">En stock</div>
+            <div style="font-size:1.7em;font-weight:bold;" id="inStock">0</div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:14px;box-shadow:0 2px 8px #13336611;padding:28px 18px;display:flex;align-items:center;">
+          <div style="padding:14px;border-radius:50%;background:#fffbe6;color:#e1b059;margin-right:18px;">
+            <i class="fas fa-exclamation-triangle" style="font-size:1.5em;"></i>
+          </div>
+          <div>
+            <div style="color:#556080;">Stock faible</div>
+            <div style="font-size:1.7em;font-weight:bold;" id="lowStock">0</div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:14px;box-shadow:0 2px 8px #13336611;padding:28px 18px;display:flex;align-items:center;">
+          <div style="padding:14px;border-radius:50%;background:#ffe6e6;color:#e94f4f;margin-right:18px;">
+            <i class="fas fa-times-circle" style="font-size:1.5em;"></i>
+          </div>
+          <div>
+            <div style="color:#556080;">Rupture</div>
+            <div style="font-size:1.7em;font-weight:bold;" id="outOfStock">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Graphique + Activité récente -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:36px;">
+        <!-- Graphique -->
+        <div style="background:#fff;border-radius:14px;box-shadow:0 2px 8px #13336611;padding:28px;">
+          <h2 style="font-size:1.2em;font-weight:600;color:#133366;margin-bottom:18px;">Niveaux de stocks (30 jours)</h2>
+          <canvas id="chartStocks" style="width:100%;height:300px;"></canvas>
+        </div>
+        <!-- Activité récente -->
+        <div style="background:#fff;border-radius:14px;box-shadow:0 2px 8px #13336611;padding:28px;">
+          <h2 style="font-size:1.2em;font-weight:600;color:#133366;margin-bottom:18px;">Activité récente</h2>
+          <ul style="font-size:1em;color:#556080;list-style:none;padding:0;">
+            <li><i class="fas fa-plus-circle" style="color:#377dff;margin-right:8px;"></i> Produit ajouté : souris Logitech - il y a 2 min</li>
+            <li><i class="fas fa-sync" style="color:#24b47e;margin-right:8px;"></i> Stock mis à jour : Ecran HP - il y a 10 min</li>
+            <li><i class="fas fa-exclamation" style="color:#e1b059;margin-right:8px;"></i> Stock faible : T-shirt Bleu - il y a 1h</li>
+            <li><i class="fas fa-times" style="color:#e94f4f;margin-right:8px;"></i> Rupture : Clavier mécanique - il y a 2h</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display:flex;gap:16px;margin-bottom:18px;">
+        <button onclick="openAddProductModal()" style="background:#377dff;color:#fff;padding:10px 22px;border-radius:8px;border:none;font-weight:500;display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <i class="fas fa-plus"></i> Ajouter un produit
+        </button>
+        <button style="background:#24b47e;color:#fff;padding:10px 22px;border-radius:8px;border:none;font-weight:500;display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <i class="fas fa-file-excel"></i> Exporter Excel
+        </button>
+        <button style="background:#e1b059;color:#fff;padding:10px 22px;border-radius:8px;border:none;font-weight:500;display:flex;align-items:center;gap:8px;cursor:pointer;">
+          <i class="fas fa-filter"></i> Filtrer
+        </button>
+      </div>
+
+      <!-- Tableau Produits -->
+      <div style="background:#fff;border-radius:14px;box-shadow:0 2px 8px #13336611;margin-bottom:36px;overflow:hidden;">
+        <div style="padding:18px 28px;border-bottom:1px solid #e0e0e0;display:flex;justify-content:space-between;align-items:center;">
+          <h2 style="font-size:1.2em;font-weight:600;color:#133366;">Liste des produits</h2>
+        </div>
+        <div style="overflow-x:auto;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead style="background:#f7f7fa;">
+              <tr>
+                <th style="padding:12px 10px;text-align:left;font-size:0.95em;color:#556080;">ID</th>
+                <th style="padding:12px 10px;text-align:left;font-size:0.95em;color:#556080;">Nom</th>
+                <th style="padding:12px 10px;text-align:left;font-size:0.95em;color:#556080;">Catégorie</th>
+                <th style="padding:12px 10px;text-align:left;font-size:0.95em;color:#556080;">Stock</th>
+                <th style="padding:12px 10px;text-align:left;font-size:0.95em;color:#556080;">Statut</th>
+                <th style="padding:12px 10px;text-align:left;font-size:0.95em;color:#556080;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:12px 10px;">001</td>
+                <td style="padding:12px 10px;">Souris USB</td>
+                <td style="padding:12px 10px;">Informatique</td>
+                <td style="padding:12px 10px;">85</td>
+                <td style="padding:12px 10px;color:#24b47e;">OK</td>
+                <td style="padding:12px 10px;">
+                  <button style="background:none;border:none;color:#377dff;cursor:pointer;"><i class="fas fa-edit"></i></button>
+                  <button style="background:none;border:none;color:#e94f4f;cursor:pointer;"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:12px 10px;">002</td>
+                <td style="padding:12px 10px;">T-shirt Bleu</td>
+                <td style="padding:12px 10px;">Vêtements</td>
+                <td style="padding:12px 10px;">4</td>
+                <td style="padding:12px 10px;color:#e1b059;">⚠️</td>
+                <td style="padding:12px 10px;">
+                  <button style="background:none;border:none;color:#377dff;cursor:pointer;"><i class="fas fa-edit"></i></button>
+                  <button style="background:none;border:none;color:#e94f4f;cursor:pointer;"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:12px 10px;">003</td>
+                <td style="padding:12px 10px;">Clavier mécanique</td>
+                <td style="padding:12px 10px;">Périphériques</td>
+                <td style="padding:12px 10px;">0</td>
+                <td style="padding:12px 10px;color:#e94f4f;">❌</td>
+                <td style="padding:12px 10px;">
+                  <button style="background:none;border:none;color:#377dff;cursor:pointer;"><i class="fas fa-edit"></i></button>
+                  <button style="background:none;border:none;color:#e94f4f;cursor:pointer;"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="inventaire-header">
+          <span class="inventaire-title">Gestion des Transactions</span>
+          <a href="#form-ajout-transaction" class="add-transaction-btn">➕ Ajouter une transaction</a>
+      </div>
+
+      <form method="get" class="mb-4 flex">
+          <input type="text" name="search" value="{{ search|default('') }}" placeholder="Rechercher un équipement..."
+                 class="border rounded-l px-4 py-2 w-full" />
+          <button type="submit" class="bg-blue-600 text-white px-4 rounded-r">Rechercher</button>
+      </form>
+    </main>
+  </div>
+</div>
+
+<!-- ChartJS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const ctx = document.getElementById('chartStocks').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['J-30','J-25','J-20','J-15','J-10','J-5','Aujourd\'hui'],
+        datasets: [{
+          label: 'Stock total',
+          data: [230, 220, 215, 210, 205, 200, 195],
+          backgroundColor: 'rgba(59,130,246,0.2)',
+          borderColor: '#3b82f6',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: { beginAtZero: false }
+        }
+      }
+    });
+
+    // Fake counters (à dynamiser selon ta logique backend)
+    document.getElementById('totalProducts').textContent = 245;
+    document.getElementById('inStock').textContent = 210;
+    document.getElementById('lowStock').textContent = 21;
+    document.getElementById('outOfStock').textContent = 14;
+  });
+
+  // Exemple de fonction pour le bouton "Ajouter un produit"
+  function openAddProductModal() {
+    alert('Formulaire d\'ajout de produit à intégrer ici.');
+  }
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}

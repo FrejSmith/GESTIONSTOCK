@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement PayPal{% endblock %}
+
+{% block body %}
+<section id="paypal-section" style="background:#f8fafc; padding:60px 0;">
+  <div style="max-width:500px; margin:0 auto; padding:0 20px;">
+    <h2 style="font-size:2rem; font-weight:bold; color:#1a2236; text-align:center; margin-bottom:32px;">
+      Paiement PayPal - Offre {{ offre|capitalize }}
+    </h2>
+    <div style="background:#fff; border-radius:14px; box-shadow:0 2px 8px 0 rgba(30,40,60,0.07); padding:32px 24px; text-align:center;">
+      <p style="font-size:1.1rem; color:#556080; margin-bottom:18px;">
+        Vous allez être redirigé vers PayPal pour effectuer votre paiement.<br>
+        <span style="color:#377dff;">(Intégration réelle à faire avec l'API PayPal)</span>
+      </p>
+      <a href="https://www.paypal.com/" target="_blank" style="background:#0070ba;color:#fff;border:none;border-radius:8px;padding:10px 28px;font-size:1rem;font-weight:500;cursor:pointer;text-decoration:none;display:inline-block;">
+        <i class="fab fa-paypal"></i> Accéder à PayPal
+      </a>
+      <p style="margin-top:24px;">
+        <a href="{{ path('tarification') }}" style="color:#377dff;">Retour à la tarification</a>
+      </p>
+    </div>
+  </div>
+</section>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}

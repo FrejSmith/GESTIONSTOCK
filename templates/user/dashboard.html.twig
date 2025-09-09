@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Client{% endblock %}
+
+{% block body %}
+<!-- IMPORTS ESSENTIELS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- SECTION TABLEAU DE BORD UTILISATEUR -->
+<section id="userDashboard" class="p-6 bg-gray-100 min-h-screen">
+  <!-- Titre -->
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">📊 Tableau de bord stock</h1>
+    <p class="text-gray-500">Bienvenue, vous pouvez consulter l'état des stocks en temps réel.</p>
+  </div>
+
+  <!-- Statistiques -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <div class="bg-white shadow rounded-lg p-6">
+      <div class="flex items-center">
+        <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
+          <i class="fas fa-boxes text-xl"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-gray-500">Produits</p>
+          <h3 class="text-xl font-bold" id="statTotalProducts">0</h3>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white shadow rounded-lg p-6">
+      <div class="flex items-center">
+        <div class="bg-green-100 text-green-600 p-3 rounded-full">
+          <i class="fas fa-check-circle text-xl"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-gray-500">En stock</p>
+          <h3 class="text-xl font-bold" id="statInStock">0</h3>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white shadow rounded-lg p-6">
+      <div class="flex items-center">
+        <div class="bg-yellow-100 text-yellow-600 p-3 rounded-full">
+          <i class="fas fa-exclamation-triangle text-xl"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-gray-500">Stock faible</p>
+          <h3 class="text-xl font-bold" id="statLowStock">0</h3>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white shadow rounded-lg p-6">
+      <div class="flex items-center">
+        <div class="bg-red-100 text-red-600 p-3 rounded-full">
+          <i class="fas fa-times-circle text-xl"></i>
+        </div>
+        <div class="ml-4">
+          <p class="text-gray-500">Rupture</p>
+          <h3 class="text-xl font-bold" id="statOutOfStock">0</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graphique -->
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-4">Répartition des stocks par catégorie</h2>
+    <canvas id="userStockChart" class="w-full h-64"></canvas>
+  </div>
+
+  <!-- Activité récente -->
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-4">📌 Activité récente</h2>
+    <ul class="space-y-2 text-sm text-gray-600">
+      {% for transaction in transactions %}
+        <li>
+          <i class="fas fa-sync-alt text-green-500 mr-2"></i>
+          {{ transaction.type }} : {{ transaction.equipement.name }}   {# fonctionne si la méthode est getNom() #} - {{ transaction.date|date('d/m/Y H:i') }}
+        </li>
+      {% else %}
+        <li>Aucune activité récente.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Liste des produits -->
+  <div class="bg-white shadow rounded-lg">
+    <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+      <a href="{{ path('user_inventaire_ajout') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center">
+        <i class="fas fa-plus mr-2"></i>Ajouter un équipement
+      </a>
+    </div>
+    <div class="p-4">
+      <form method="get" class="mb-4 flex">
+          <input type="text" name="search" value="{{ search|default('') }}" placeholder="Rechercher un équipement..."
+                 class="border rounded-l px-4 py-2 w-full" />
+          <button type="submit" class="bg-blue-600 text-white px-4 rounded-r">Rechercher</button>
+      </form>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 text-sm">
+        <thead class="bg-gray-100 text-gray-600 uppercase">
+          <tr>
+            <th class="px-6 py-3 text-left">Équipement</th>
+            <th class="px-6 py-3 text-left">Catégorie</th>
+            <th class="px-6 py-3 text-left">Quantité</th>
+            <th class="px-6 py-3 text-left">État</th>
+            <th class="px-6 py-3 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          {% for equipement in equipements %}
+            <tr>
+              <td class="px-6 py-4">{{ equipement.name }}</td>
+              <td class="px-6 py-4">{{ equipement.categorie.nom }}</td>
+              <td class="px-6 py-4">{{ equipement.stock }}</td>
+              <td class="px-6 py-4">
+                {% if equipement.stock == 0 %}
+                  <span class="text-red-500">Rupture</span>
+                {% elseif equipement.stock < 5 %}
+                  <span class="text-yellow-500">Stock faible</span>
+                {% else %}
+                  <span class="text-green-600">En stock</span>
+                {% endif %}
+              </td>
+              <td>
+                <a href="{{ path('equipement_modifier', {id: equipement.id}) }}" class="text-blue-600 hover:underline">Modifier</a>
+                <form method="post" action="{{ path('equipement_delete', {id: equipement.id}) }}" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer cet équipement ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ equipement.id) }}">
+                    <button class="text-red-600 hover:underline bg-transparent border-0 p-0" type="submit">Supprimer</button>
+                </form>
+              </td>
+            </tr>
+          {% else %}
+            <tr><td colspan="5" class="text-center">Aucun produit</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

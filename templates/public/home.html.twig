@@ -1,93 +1,738 @@
-{# filepath: /Users/macbookpro/GESTIONSTOCK/templates/public/home.html.twig #}
-{# filepath: templates/home/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Accueil - Gestion de Stock{% endblock %}
 
 {% block body %}
-    <nav id="navbar">
-        <ul>
-            <li><a href="#header">Accueil</a></li>
-            <li><a href="#features-section">Services</a></li>
-            <li><a href="#pricing-section">Tarifs</a></li>
-            <li><a href="#contact-section">Contactez-nous</a></li>
-        </ul>
-    </nav>
+<style>
+  body {
+      background-color: #f8fbfd;
+  }
+  .skyware-header {
+      background: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      height: 65px;
+  }
+  .skyware-logo {
+      height: 38px;
+      margin-right: 32px;
+  }
+  .skyware-nav {
+      display: flex;
+      gap: 30px;
+      flex: 1;
+  }
+  .skyware-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1em;
+      padding: 8px 0;
+      transition: color 0.2s;
+  }
+  .skyware-nav a:hover {
+      color: #3bb3e0;
+  }
+  .signup-btn {
+      background:rgb(238, 240, 244);
+      color: rgba(25, 51, 102, 0.75) !important;
+      border-radius: 5px;
+      padding: 8px 18px;
+      margin-left: 18px;
+      font-weight: bold;
+      transition: background 0.2s;
+  }
+  .signup-btn:hover {
+      background: #159c64;
+  }
+  .skyware-main {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      padding: 40px 0 70px 0;
+      background:
+          linear-gradient(rgba(19,51,102,0.75), rgba(19,51,102,0.75)),
+          url('https://images.pexels.com/photos/2701434/pexels-photo-2701434.jpeg') center/cover no-repeat;
+      border-radius: 18px;
+      margin: 40px 0;
+  }
+  .skyware-col {
+      background: none;
+      width: 350px;
+  }
+  .skyware-col h2 {
+      color: #59a5e1;
+      font-size: 1.6em;
+      font-weight: 500;
+      margin-bottom: 24px;
+  }
+  .checkmark {
+      color: #24b47e;
+      font-size: 1.2em;
+      margin-right: 8px;
+  }
+  .skyware-box {
+      background: #eaf6fd;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+      font-size: 1.15em;
+      box-shadow: 0 2px 8px rgba(90,160,220,0.04);
+  }
+  .skyware-icon {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+      background: #d2eafd;
+      border-radius: 8px;
+  }
+  .user-free::before { content: "👤"; font-size: 1.3em; color: #24b47e; font-weight: bold; display: block; }
+  .receipt::before { content: "📥"; font-size: 1.3em; color: #24b47e; display: block; }
+  .ticket::before { content: "📤"; font-size: 1.3em; color: #e1b059; display: block; }
+  .transfer::before { content: "🔄"; font-size: 1.3em; color: #59a5e1; display: block; }
+  .adjust::before { content: "🛠️"; font-size: 1.3em; color: #a0a0a0; display: block; }
+  @media (max-width: 900px) {
+      .skyware-main { flex-direction: column; align-items: center; gap: 30px; }
+      .skyware-col { width: 90%; max-width: 400px; }
+  }
 
-    <header id="header">
-        <h1>Bienvenue sur la Gestion de Stock</h1>
-    </header>
+  .skyware-section {
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+  }
+  .skyware-header {
+    background-color:rgb(9, 68, 121);
+    /* background-image: url('https://images.pexels.com/photos/2701434/pexels-photo-2701434.jpeg'); */
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-inscription {
+    background-color: #009944;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  .skyware-content {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    align-items: startup;
+  }
+  .skyware-images {
+    flex: 1;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin: 30px 0;
+  }
+  .skyware-images img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px #0002;
+    transition: transform 0.3s, box-shadow 0.3s;
+    -webkit-box-reflect: below 0px linear-gradient(transparent, rgba(0,0,0,0.15));
+  }
+  .skyware-images img:hover {
+    transform: scale(1.08) rotate(-2deg);
+    box-shadow: 0 16px 48px #0003;
+    z-index: 2;
+  }
+  .skyware-text {
+    flex: 1;
+    padding-left: 20px;
+    min-width: 250px;
+  }
+  .skyware-text h2 {
+    margin-bottom: 16px;
+  }
+  .skyware-text ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  .skyware-title {
+      font-size: 1.2em;
+      text-transform: uppercase;
+      color: #133366;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-align: center;
+      margin: 30px 0 18px 0;
+  }
 
-    <section id="marquee">
-        <div class="marquee-container">
-            <p>Gérez l'inventaire et surveillez les actifs tout au long de leur cycle de vie !</p>
-        </div>
-    </section>
+  .stock-info-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 40px 20px;
+  }
+  .stock-div {
+    background-color:rgb(152, 226, 122);
+    border-radius: 10px;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+  .stock-div:hover {
+    transform: translateY(-5px);
+  }
+  .stock-div h2 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  .stock-div p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    color: #555;
+  }
+  @media (max-width: 992px) {
+    .stock-info-section {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 
-    <section id="carousel">
-        <div class="carousel-container">
-            <div class="carousel-slide">
-                <img src="{{ asset('images/gest1.jpeg') }}" alt="">
-                <img src="{{ asset('images/gest2.jpeg') }}" alt="">
-                <img src="{{ asset('images/gest3.webp') }}" alt="">
-                <img src="{{ asset('images/gest4.webp') }}" alt="">
-            </div>
-        </div>
-    </section>
+  .skyware-banner-arrow {
+      position: relative;
+      background: #133366;
+      color: #fff;
+      font-size: 1.3em;
+      font-weight: bold;
+      text-align: center;
+      padding: 18px 40px;
+      margin: 30px auto 18px auto;
+      border-radius: 8px;
+      max-width: 900px;
+      box-shadow: 0 4px 16px #0001;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .skyware-banner-arrow::before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+      border-right: 30px solid #133366;
+  }
+  .skyware-banner-arrow::after {
+      content: "";
+      display: block;
+      position: absolute;
+      right: -30px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 25px solid transparent;
+      border-bottom: 25px solid transparent;
+      border-left: 30px solid #133366;
+  }
+  @media (max-width: 600px) {
+      .skyware-banner-arrow {
+          font-size: 1em;
+          padding: 12px 10px;
+      }
+      .skyware-banner-arrow::before,
+      .skyware-banner-arrow::after {
+          border-top: 15px solid transparent;
+          border-bottom: 15px solid transparent;
+          border-right: 18px solid #133366;
+          border-left: 18px solid #133366;
+          left: -18px;
+          right: -18px;
+      }
+  }
 
-    <section id="features-section">
-        <h2>Plus de fonctions pour améliorer votre prestation de service</h2>
-        <div class="features-container">
-            <div class="feature-box">
-                <h3>Automatisation</h3>
-                <p>Configurez de simples fonctions d'automatisation dans votre outil de gestion des actifs informatiques en ligne et tirez profit des capacités intégrées pour gérer toutes vos tâches manuelles. Priorisez, catégorisez, assignez et fermez les tickets.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Reporting</h3>
-                <p>Identifiez les goulets d’étranglement, prenez des décisions éclairées, surveillez la performance du logiciel de gestion des actifs informatiques ITIL basé sur le cloud, et améliorez la prestation de service grâce à des capacités de production de rapports prédéfinis et personnalisés.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Découverte automatique des actifs</h3>
-                <p>Identifiez tous les actifs de votre organisation en utilisant les outils de découverte qui analysent et cartographient automatiquement tout le matériel et les logiciels et mettent aussi périodiquement à jour les données des actifs.</p>
-            </div>
-            <div class="feature-box">
-                <h3>CMDB/ Gestion des configurations</h3>
-                <p>Conservez un répertoire complet de tous les actifs de l'organisation avec la visibilité détaillée sur la façon dont ils sont connectés les uns aux autres grâce à un système de gestion des configurations en mode SaaS. Identifiez facilement les actifs essentiels, et analysez l'impact des incidents et des changements.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Gestion du cycle de vie des actifs</h3>
-                <p>Gérez et surveillez tous vos actifs sur un seul écran, où que vous soyez et quelle que soit l’étape : l'approvisionnement, la maintenance, la dépréciation ou bien l'élimination. Obtenez la chronologie de tous les évènements d'un coup d'œil rapide sur votre solution de centre de support basée sur le web.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Gestion des contrats</h3>
-                <p>Conservez un fichier des contrats avec les fournisseurs tiers et soyez averti des expirations et des approbations grâce au planificateur de contrat basé sur le cloud.</p>
-            </div>
-        </div>
-    </section>
+  .info-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 50px auto;
+    gap: 20px;
+    max-width: 1200px;
+    padding: 0 20px;
+  }
+  .card {
+    background-color: #e0f7fa;
+    border-radius: 12px;
+    padding: 20px;
+    flex: 1 1 250px;
+    max-width: 280px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+  }
+  .card h3 {
+    color: #2e7d32;
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .card p {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+    color: #333;
+  }
+  @media(max-width: 768px){
+    .info-cards {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 
-    <section id="pricing-section">
-        <h2>Tarifs</h2>
-        <p>Découvrez nos offres adaptées à vos besoins.</p>
-        <ul>
-            <li>Offre Basique : 50€/mois</li>
-            <li>Offre Avancée : 100€/mois</li>
-            <li>Offre Premium : 200€/mois</li>
-        </ul>
-    </section>
+  .marquee-section {
+    overflow: hidden;
+    width: 100%;
+    background: #fff;
+    padding: 20px 0;
+  }
+  .marquee-container {
+    display: flex;
+    width: calc(300px * 8);
+    animation: scroll-left 20s linear infinite;
+  }
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  .marquee-container img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 8px;
+  }
+  .dossou-marquee {
+    display: inline-block;
+    white-space: nowrap;
+    color: #fff;
+    font-size: 0.50em;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 2px;
+    padding: 2px 18px;
+    border: 2.5px solid #133366;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #0002;
+    overflow: hidden;
+    position: relative;
+    background: transparent;
+    animation: dossou-scroll 6s linear infinite;
+  }
+  @keyframes dossou-scroll {
+    0%   { transform: translateX(100%);}
+    10%  { transform: translateX(0);}
+    90%  { transform: translateX(0);}
+    100% { transform: translateX(-100%);}
+  }
 
-    <section id="contact-section">
-        <h2>Contactez-nous</h2>
-        <p>Pour toute question ou demande, contactez-nous à <a href="mailto:contact@gestionstock.com">contact@gestionstock.com</a>.</p>
-    </section>
+  .footer {
+    background: #232b36;
+    padding: 32px 0 0 0;
+  }
+  .footer-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer-title {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 8px;
+    display: inline-block;
+  }
+  .footer-brand .icon {
+    color: #fff;
+    font-size: 1.6rem;
+    vertical-align: middle;
+    margin-right: 0.3rem;
+  }
+  .footer-desc {
+    color: #b0b7c3;
+    font-size: 1.07rem;
+    margin-top: 6px;
+    margin-left: 2px;
+  }
+  .footer-socials {
+    display: flex;
+    gap: 24px;
+    margin-top: 6px;
+  }
+  .footer-socials a {
+    color: #fff;
+    font-size: 1.25rem;
+    transition: color 0.2s;
+    text-decoration: none;
+  }
+  .footer-socials a:hover {
+    color: #377dff;
+  }
+  .footer-line {
+    border-top: 1px solid #313a46;
+    margin: 28px 32px 0 32px;
+  }
+  @media (max-width: 700px) {
+    .footer-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .footer-socials {
+      margin-top: 0;
+    }
+    .footer-line {
+      margin: 28px 0 0 0;
+    }
+  }
 
-    <section id="actions">
-        <h2>Actions disponibles</h2>
-        <div class="buttons">
-            <a href="{{ path('inventaire_index') }}" class="btn">Accéder à la gestion des transactions</a>
-        </div>
-    </section>
-    <div class="content">
-        <p>{{ message }}</p>
-        <a href="{{ path('public_equipements') }}" style="color: #23395d; text-decoration: none;">Voir nos équipements</a>
+  .public-actions {
+      max-width: 600px;
+      margin: 40px auto 0 auto;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: nowrap;
+  }
+  .public-btn {
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: 180px;
+      background: #133366;
+      color: #fff !important;
+      padding: 12px 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1em;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 2px 8px #0001;
+      display: inline-block;
+      text-align: center;
+      white-space: nowrap;
+  }
+  .public-btn:hover {
+      background: #00796b;
+      color: #fff !important;
+      transform: translateY(-2px) scale(1.03);
+  }
+  @media (max-width: 600px) {
+      .public-actions {
+          flex-wrap: wrap;
+          max-width: 100%;
+      }
+      .public-btn {
+          max-width: 100%;
+          width: 100%;
+          margin-bottom: 10px;
+      }
+  }
+
+  .features-list {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: nowrap;
+      max-width: 100%;
+      overflow-x: auto;
+  }
+  .feature-card {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 2px 10px 0 rgba(20,30,60,0.06);
+      padding: 36px 18px 32px 18px;
+      width: 300px;
+      min-width: 220px;
+      max-width: 300px;
+      text-align: left;
+      transition: box-shadow 0.2s;
+      flex: 0 0 300px;
+  }
+  @media (max-width: 1000px) {
+      .features-list {
+          gap: 12px;
+      }
+      .feature-card {
+          width: 220px;
+          min-width: 180px;
+          max-width: 220px;
+          padding: 24px 10px 20px 10px;
+      }
+  }
+  @media (max-width: 700px) {
+      .features-list {
+          flex-wrap: wrap;
+          justify-content: center;
+      }
+      .feature-card {
+          width: 100%;
+          min-width: 0;
+          max-width: 100%;
+          margin-bottom: 18px;    
+      }
+  }
+
+  header {
+    background: #2563eb !important; /* Bleu vif, modifiable */
+}
+header nav a {
+    color: white !important;
+}
+header nav a:hover {
+    color: #dbeafe !important;
+}
+</style>
+
+<!-- HTML à partir d'ici -->
+
+<div class="skyware-header">
+    <div style="display:flex; flex-direction:column; align-items:center; margin-right:32px;">
+        <span class="dossou-marquee">
+            DOSSOUGESTION
+        </span>
+        <span class="skyware-logo" style="display:inline-block;vertical-align:middle;">
+          <svg width="38" height="38" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="12" width="36" height="24" rx="4" fill="#133366"/>
+            <rect x="12" y="18" width="24" height="12" rx="2" fill="#59a5e1"/>
+            <rect x="18" y="22" width="12" height="4" rx="1" fill="#fff"/>
+            <rect x="6" y="12" width="36" height="24" rx="4" stroke="#59a5e1" stroke-width="2"/>
+          </svg>
+        </span>
     </div>
-{% endblock %}    
+    <nav class="skyware-nav">
+        <a href="{{ path('homepage') }}">Accueil</a>
+        <a href="{{ path('caracteristiques') }}">Caractéristiques</a>
+        <a href="{{ path('tarification') }}">Tarification</a>
+        <a href="{{ path('contact') }}">Contact</a>
+        <a href="{{ path('app_login') }}">Connexion</a>
+        <a href="{{ path('app_register') }}" class="signup-btn">S'inscrire</a>
+    </nav>
+</div>
+
+<section class="features-section" style="background: #fafbfc; padding: 60px 0;">
+  <!-- contenu features ... -->
+  <div class="features-container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+    <h2 class="features-title" style="font-size: 2.2rem; font-weight: bold; color: #151d2a; text-align: center; margin-bottom: 40px;">
+      Fonctionnalités Principales
+    </h2>
+    <div class="features-list">
+      <div class="feature-card">
+        <div class="feature-icon" style="font-size: 2.5rem; color: #377dff; margin-bottom: 18px;">
+          <i class="fas fa-box-open"></i>
+        </div>
+        <div class="feature-title">Gestion des Articles</div>
+        <div class="feature-desc">Ajoutez, modifiez et suivez facilement tous vos articles en stock avec des catégories personnalisables.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="font-size: 2.5rem; color: #377dff; margin-bottom: 18px;">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="feature-title">Tableaux de Bord</div>
+        <div class="feature-desc">Visualisez l'état de votre stock avec des graphiques et indicateurs clés en temps réel.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="font-size: 2.5rem; color: #377dff; margin-bottom: 18px;">
+          <i class="fas fa-file-alt"></i>
+        </div>
+        <div class="feature-title">Rapports Complets</div>
+        <div class="feature-desc">Générez et téléchargez des rapports détaillés pour une analyse approfondie de votre inventaire.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Le reste du contenu HTML identique -->
+
+<div class="skyware-main">
+  <!-- ... vos colonnes ... -->
+  <div class="skyware-col">
+    <h2><span class="checkmark">✔</span> Très Bon Marché</h2>
+    <div class="skyware-box">
+      <div class="skyware-icon user-free"></div>
+      <div><strong>GRATUIT</strong> pour un utilisateur</div>
+    </div>
+    <div class="skyware-box">
+      <div class="skyware-icon user-plus"></div>
+    </div>
+  </div>
+  <div class="skyware-col">
+    <h2><span class="checkmark">✔</span> Ridiculement Simple</h2>
+    <div class="skyware-box">
+      <div class="skyware-icon receipt"></div>
+      <div><strong>Reçus</strong> pour les entrées</div>
+    </div>
+    <div class="skyware-box">
+      <div class="skyware-icon ticket"></div>
+      <div><strong>Billets</strong> pour les sorties</div>
+    </div>
+    <div class="skyware-box">
+      <div class="skyware-icon transfer"></div>
+      <div><strong>Transferts</strong> pour déplacer des articles</div>
+    </div>
+    <div class="skyware-box">
+      <div class="skyware-icon adjust"></div>
+      <div><strong>Ajustements</strong> pour pertes ou créations</div>
+    </div>
+  </div>
+</div>
+
+<section class="skyware-section">
+  <!-- ... contenu ... -->
+  <div class="skyware-title">Le Meilleur Logiciel de Gestion de Stock en Ligne</div>
+  <div class="skyware-header">
+    <a href="{{ path('app_register') }}" class="btn-inscription">S'inscrire GRATUITEMENT</a>
+  </div>
+  <div class="skyware-banner-arrow">
+      Rejoignez <span style="color:rgb(12, 106, 19);">45 931</span> Entreprises dans plus de <span style="color: #009944;">160</span> Pays qui Gèrent leur Inventaire en Ligne.
+  </div>
+  <br><br><br><br>
+  <div class="skyware-content">
+    <div class="skyware-images">
+      <img src="https://media.istockphoto.com/id/1281422073/fr/photo/achats-en-ligne-pour-les-marchandises-application-de-magasin-en-ligne-pour-un-smartphone.jpg?b=1&s=612x612&w=0&k=20&c=3GbytgxGt6tpfTyT1Ys6AoQS2Pgwli7W69hR4r8COc8=" alt="Laptop" />
+      <img src="https://media.istockphoto.com/id/497664416/fr/photo/des-graphiques-et-des-diagrammes.jpg?b=1&s=612x612&w=0&k=20&c=w5JVtuMJ_2LER4_ExVterXKN3A3hxj-DWFRNqp5zviU=" alt="Tablet" />
+      <img src="https://images.pexels.com/photos/7947713/pexels-photo-7947713.jpeg" alt="Phone" />
+    </div>
+    <div class="skyware-text">
+      <h2>Pourquoi utiliser DOSSOUGESTION ?</h2>
+      <ul>
+        <li>Disponible sur bureau, portable, tablette, ou téléphone</li>
+        <li>Système simple basé sur les transactions</li>
+        <li>Paramètres flexibles avec de nombreuses options</li>
+        <li>Rapports sur les coûts d'inventaire</li>
+        <li>Sécurité cryptée</li>
+        <li>Aucune limite d'articles ou de transactions</li>
+        <li>Disponible en plusieurs langues</li>
+        <li>Capacités multi-utilisateurs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="stock-info-section">
+  <div class="stock-div">
+    <h2>La gestion des stocks peut être un défi !</h2>
+    <p>
+      Vous devez suivre les articles, trouver les choses quand vous en avez besoin, envoyer les produits à temps et générer des rapports pour prendre des décisions. Skyware Inventory fournit le logiciel flexible dont vous avez besoin pour rationaliser ce processus.
+    </p>
+  </div>
+  <div class="stock-div">
+    <h2>Qu'est-ce qu'un Logiciel de Gestion de Stock ?</h2>
+    <p>
+      Le logiciel inventaire vous permet de suivre automatiquement les articles, les actifs, les produits, les biens et les services de n'importe où dans le monde et à n'importe quel moment de la journée en utilisant un service en nuage au lieu d'un logiciel de bureau traditionnel.
+    </p>
+  </div>
+  <div class="stock-div">
+    <h2>Logiciel Gestion de Stock : Éléments à Prendre en Compte</h2>
+    <p>
+      Différents produits logiciel inventaire offrent différentes fonctionnalités. Voici quelques articles à rechercher pour choisir le bon système de gestion des stocks.
+    </p>
+  </div>
+</section>
+
+<section class="marquee-section">
+  <div class="marquee-container">
+    <img src="https://images.pexels.com/photos/2701434/pexels-photo-2701434.jpeg" alt="Image 1" />
+    <img src="https://images.pexels.com/photos/4481259/pexels-photo-4481259.jpeg" alt="Image 2" />
+    <img src="https://images.pexels.com/photos/7857557/pexels-photo-7857557.jpeg" alt="Image 3" />
+    <img src="https://images.pexels.com/photos/4483941/pexels-photo-4483941.jpeg" alt="Image 4" />
+    <img src="https://images.pexels.com/photos/2701434/pexels-photo-2701434.jpeg" alt="Image 1" />
+    <img src="https://images.pexels.com/photos/4481259/pexels-photo-4481259.jpeg" alt="Image 2" />
+    <img src="https://images.pexels.com/photos/7857557/pexels-photo-7857557.jpeg" alt="Image 3" />
+    <img src="https://images.pexels.com/photos/4483941/pexels-photo-4483941.jpeg" alt="Image 4" />
+  </div>
+</section>
+
+<section class="info-cards">
+  <div class="card">
+    <h3>Prix</h3>
+    <p>Méféiez-vous des coûts initiaux élevés ou des frais permanents élevés. Les bons produits offrent des options gratuites pour commencer, ce qui réduit vos risques et vous permet de grandir avec eux. En ce qui concerne les solutions d'inventaire basées sur SaaS, un prix plus élevé ne se traduit pas par une meilleure qualité.</p>
+  </div>
+  <div class="card">
+    <h3>Flexibilité</h3>
+    <p>Que vous soyez un particulier, une entreprise, un organisme à but non lucratif, un magasin de détail ou un entrepôt, vous aurez besoin de flexibilité dans votre système d'inventaire. Et plus le logiciel est complexe, moins il sera flexible. Cherchez des logiciels qui s'adaptent à vos besoins, et non l'inverse.</p>
+  </div>
+  <div class="card">
+    <h3>Simplicité</h3>
+    <p>Le logiciel gestion de stocks idéal est aussi simple que possible. Cela allège la courbe d'apprentissage et réduit les erreurs pour vous et votre personnel. Méfiez-vous des fonctionnalités trop nombreuses, trop d'options et trop de complexité. Il y a de fortes chances que vous n'utilisiez jamais les fonctionnalités avancées dans la plupart des systèmes.</p>
+  </div>
+  <div class="card">
+    <h3>Caractéristiques</h3>
+    <p>C'est l'inventaire que nous faisons ici. Cela signifie configurer des articles, gérer des transactions, déplacer des articles et générer des rapports. Vous avez besoin de ces fonctionnalités d'inventaire de base pour rationaliser vos opérations. Et si vous suivez les coûts, vous aurez besoin d'un coût MOYEN, LIFO ou FIFO.</p>
+  </div>
+</section>
+
+<div class="public-actions">
+  <a href="{{ path('public_equipements') }}" class="public-btn">Voir les équipements</a>
+  <a href="{{ path('inventaire_index') }}" class="public-btn">Gestion des transactions</a>
+  <a href="{{ path('admin_dashboard') }}" class="public-btn">Accéder au Tableau de Bord</a>
+</div>
+
+<!-- FontAwesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <i class="fas fa-boxes icon"></i>
+      <span class="footer-title">DossouGestion</span>
+      <div class="footer-desc">Solution de gestion d'inventaire</div>
+    </div>
+    <div class="footer-socials">
+      <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+  <div class="footer-line"></div>
+</footer>
+{% endblock %}

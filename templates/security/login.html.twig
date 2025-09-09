@@ -1,6 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Log in!{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if(togglePassword && password && eyeIcon) {
+                togglePassword.addEventListener('click', function () {
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    // Change icon
+                    eyeIcon.className = type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
+                });
+            }
+        });
+    </script>
+{% endblock %}
 
 {% block body %}
     <form method="post">
@@ -14,11 +32,16 @@
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
+        <h1 class="h3 mb-3 font-weight-normal">CONNEXION</h1>
+        <label for="username">Mail</label>
         <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+        <label for="password">Mots de passe</label>
+        <div style="position: relative;">
+            <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+            <span id="togglePassword" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+                <i class="bi bi-eye" id="eyeIcon" style="font-size:1.2em; color:#222;"></i>
+            </span>
+        </div>
         <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
         {#
@@ -35,4 +58,5 @@
             Sign in
         </button>
     </form>
+    <a href="{{ path('app_forgot_password_request') }}" class="btn btn-link" style="padding-left:0;">Mot de passe oublié ?</a>
 {% endblock %}

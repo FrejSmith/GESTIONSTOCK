@@ -20,16 +20,18 @@ class TransactionInventaireType extends AbstractType
         $builder
             ->add('equipement', EntityType::class, [
                 'class' => Equipement::class,
-                'choice_label' => 'nom',
+                'choice_label' => 'name',
                 'label' => 'Équipement',
-            ])
-            // Champ catégorie ajouté ici
-            ->add('categorie', EntityType::class, [
-                'class' => Categorie::class,
-                'choice_label' => 'nom',
-                'label' => 'Catégorie',
+                'placeholder' => 'Sélectionnez un équipement',
                 'required' => true,
             ])
+            // Champ catégorie ajouté ici
+            // ->add('categorie', EntityType::class, [
+            //     'class' => Categorie::class,
+            //     'choice_label' => 'nom',
+            //     'label' => 'Catégorie',
+            //     'required' => true,
+            // ])
             ->add('Type', ChoiceType::class, [
                 'choices' => [
                     'Entrée' => 'Entrée',
@@ -51,6 +53,7 @@ class TransactionInventaireType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => TransactionInventaire::class,
+            'equipement' => null,
         ]);
     }
 }

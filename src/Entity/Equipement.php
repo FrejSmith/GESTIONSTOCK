@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -30,7 +31,7 @@ class Equipement
     #[ORM\OneToMany(mappedBy: 'equipement', targetEntity: TransactionInventaire::class)]
     private Collection $transactions;
 
-    #[ORM\ManyToOne(inversedBy: 'equipements')]
+    #[ORM\ManyToOne(targetEntity: Categorie::class, inversedBy: 'equipements')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $categorie = null;
 
@@ -103,9 +104,30 @@ class Equipement
         return $this->categorie;
     }
 
-    public function setCategorie(?Categorie $categorie): static
+    public function setCategorie(?Categorie $categorie): self
     {
         $this->categorie = $categorie;
+        return $this;
+    }
+
+    public function addTransaction(TransactionInventaire $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setEquipement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(TransactionInventaire $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getEquipement() === $this) {
+                $transaction->setEquipement(null);
+            }
+        }
 
         return $this;
     }

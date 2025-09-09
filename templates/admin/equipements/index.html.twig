@@ -21,22 +21,17 @@
                 <tr>
                     <td>{{ equipement.id }}</td>
                     <td>{{ equipement.name }}</td>
-                    <td>{{ equipement.category }}</td>
+                    <td>{{ equipement.categorie ? equipement.categorie.nom : '' }}</td>
                     <td>{{ equipement.price }}</td>
                     <td>
-                        <a href="{{ path('admin_equipements_modifier', { id: equipement.id }) }}" class="btn btn-primary btn-sm">Modifier</a>
-                        <a href="{{ path('admin_equipements_supprimer', { id: equipement.id }) }}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet équipement ?');">Supprimer</a>
+                        <a href="{{ path('equipement_modifier', {id: equipement.id}) }}">Modifier</a>
+                        <form method="post" action="{{ path('admin_equipements_supprimer', { id: equipement.id }) }}" style="display:inline-block;" onsubmit="return confirm('Êtes-vous sûr ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ equipement.id) }}">
+                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-{% endblock %}
-
-{% block javascripts %}
-    <script>
-        function confirmSuppression() {
-            return confirm('Êtes-vous sûr de vouloir supprimer cet équipement ?');
-        }
-    </script>
 {% endblock %}

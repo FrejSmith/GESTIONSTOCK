@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Equipement;
 use App\Entity\TransactionInventaire;
-use App\Form\TransactionInventaireType; // <-- N'oublie pas d'importer le formulaire
+use App\Form\TransactionInventaireType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request; // <-- Pour gérer le formulaire
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -35,20 +35,20 @@ class UserController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
 
-        // Récupérer toutes les transactions de l'utilisateur connecté
         $transactions = $entityManager->getRepository(TransactionInventaire::class)
-            ->findBy(['user' => $user], ['Date' => 'DESC']);
+            ->findBy(['user' => $user], ['date' => 'DESC']);
 
-        // Calculer le total des quantités
-        $total = 0;
-        foreach ($transactions as $t) {
-            $total += $t->getQuantite();
+        // Récupérer la catégorie du premier inventaire (si besoin)
+        $categorie = null;
+        if (count($transactions) > 0 && $transactions[0]->getEquipement()) {
+            $categorie = $transactions[0]->getEquipement()->getCategorie();
         }
 
         return $this->render('user/profile.html.twig', [
             'user' => $user,
             'transactions' => $transactions,
-            'total' => $total,
+            'total' => array_sum(array_map(fn($t) => $t->getQuantite(), $transactions)),
+            'categorie' => $categorie,
         ]);
     }
 

@@ -3,16 +3,81 @@
 {% block title %}Gestion des Transactions{% endblock %}
 
 {% block body %}
-    <h1>Gestion des Transactions</h1>
+<style>
+.inventaire-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px auto 24px auto;
+    max-width: 1100px;
+    flex-wrap: wrap;
+}
+.inventaire-title {
+    font-size: 2em;
+    color: #133366;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+.add-transaction-btn {
+    background: #133366;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px #13336622;
+    margin-top: 10px;
+}
+.add-transaction-btn:hover {
+    background: #00796b;
+}
+.transactions-table-container {
+    max-width: 1100px;
+    margin: 0 auto 40px auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px #13336611;
+    padding: 24px 10px;
+    overflow-x: auto;
+}
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.transactions-table th, .transactions-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+}
+.transactions-table th {
+    background: #f7f7fa;
+    color: #133366;
+    font-weight: 600;
+}
+.transactions-table tr:last-child td {
+    border-bottom: none;
+}
+@media (max-width: 700px) {
+    .inventaire-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .transactions-table-container {
+        padding: 10px 2px;
+    }
+}
+</style>
 
-    <h2>Ajouter une Transaction</h2>
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit">Enregistrer</button>
-    {{ form_end(form) }}
+<div class="inventaire-header">
+    <span class="inventaire-title">Gestion des Transactions</span>
+    {# Remplace 'transaction_ajouter' par le nom réel de ta route d'ajout #}
+    <a href="#form-ajout-transaction" class="add-transaction-btn">➕ Ajouter une transaction</a>
+</div>
 
-    <h2>Liste des Transactions</h2>
-    <table border="1">
+<div class="transactions-table-container">
+    <table class="transactions-table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -20,7 +85,8 @@
                 <th>Quantité</th>
                 <th>Date</th>
                 <th>Équipement</th>
-                <th>User</th>
+                <th>Catégorie</th>
+                <th>Utilisateur</th>
             </tr>
         </thead>
         <tbody>
@@ -29,13 +95,29 @@
                     <td>{{ transaction.id }}</td>
                     <td>{{ transaction.Type }}</td>
                     <td>{{ transaction.quantite }}</td>
-                    <td>{{ transaction.Date|date('Y-m-d') }}</td>
+                    <td>{{ transaction.Date|date('d/m/Y') }}</td>
                     <td>{{ transaction.equipement.name }}</td>
-                    <td>{{ transaction.user.nom }}</td>
+                    <td>
+                        {{ transaction.equipement.categorie ? transaction.equipement.categorie.nom : '' }}
+                    </td>
+                    <td>{{ transaction.user.userIdentifier }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" style="text-align:center;">Aucune transaction trouvée.</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
 
-    <a href="{{ path('homepage') }}">Retour à l'accueil</a>
+<a href="{{ path('public_home') }}" class="add-transaction-btn" style="background:#00796b;margin:0 auto 40px auto;display:block;width:max-content;">Retour à l'accueil</a>
+
+<a href="{{ path('inventaire_export') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center mb-4">
+    <i class="fas fa-file-export mr-2"></i>Exporter le rapport
+</a>
+
+{{ form_start(form, {'attr': {'id': 'form-ajout-transaction'}}) }}
+    {# ...champs du formulaire... #}
+{{ form_end(form) }}
 {% endblock %}

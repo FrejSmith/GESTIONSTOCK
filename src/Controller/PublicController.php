@@ -15,7 +15,7 @@ class PublicController extends AbstractController
     public function home(): Response
     {
         return $this->render('public/home.html.twig', [
-            'message' => 'Bienvenue sur notre site de gestion de stock et inventaire',
+            'message' => 'Bienvenue sur la page publique !',
         ]);
     }
 

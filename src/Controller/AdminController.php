@@ -15,11 +15,18 @@ use App\Form\EquipementType;
 // #[Route('/admin', name: 'admin_')]
 class AdminController extends AbstractController
 {
-    #[Route('/', name: 'dashboard')]
+    #[Route('/admin/dashboard', name: 'admin_dashboard')]
     public function dashboard(): Response
     {
+        // Exemple de récupération des stats
+        $stats = [
+            'total_items' => 100, // à remplacer par ton vrai calcul
+            'low_stock_alerts' => 5,
+            'total_categories' => 12,
+        ];
+
         return $this->render('admin/dashboard.html.twig', [
-            'message' => 'Bienvenue dans l\'espace admin',
+            'stats' => $stats,
         ]);
     }
 

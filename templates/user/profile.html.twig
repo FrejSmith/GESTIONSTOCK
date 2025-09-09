@@ -3,43 +3,169 @@
 {% block title %}Mon Profil{% endblock %}
 
 {% block body %}
-    <h1>Bienvenue, {{ user.userIdentifier }} !</h1>
-    <h2>Mon inventaire</h2>
-    <p><strong>Total d'équipements enregistrés :</strong> {{ total }}</p>
-    {% if transactions|length == 0 %}
-    <p>Aucun équipement dans votre inventaire.</p>
-{% endif %}
-<a href="{{ path('user_inventaire_ajout') }}" class="btn btn-primary mb-3">
+<style>
+.user-profile-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px #13336611;
+    padding: 24px 32px;
+    max-width: 420px;
+    margin: 30px auto 40px auto;
+}
+.user-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #133366;
+    color: #fff;
+    font-size: 2.2em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.user-info h3 {
+    margin: 0 0 6px 0;
+    color: #133366;
+    font-size: 1.3em;
+    font-weight: 700;
+}
+.user-email {
+    color: #555;
+    font-size: 1em;
+    margin-bottom: 8px;
+}
+.profile-stats {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin: 30px 0 18px 0;
+}
+.profile-stat {
+    background: #eaf6fd;
+    border-radius: 10px;
+    padding: 18px 28px;
+    text-align: center;
+    min-width: 120px;
+    box-shadow: 0 2px 8px #13336611;
+}
+.profile-stat .stat-value {
+    font-size: 1.7em;
+    font-weight: bold;
+    color: #00796b;
+}
+.profile-stat .stat-label {
+    font-size: 1em;
+    color: #555;
+}
+.add-equipement-btn {
+    display: inline-block;
+    background: #133366;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 18px auto 30px auto;
+    transition: background 0.2s;
+}
+.add-equipement-btn:hover {
+    background: #00796b;
+}
+.table-inventaire {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px #13336611;
+    margin: 0 auto 40px auto;
+    overflow: hidden;
+}
+.table-inventaire th, .table-inventaire td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: left;
+}
+.table-inventaire th {
+    background: #f7f7fa;
+    color: #133366;
+    font-weight: 600;
+}
+.table-inventaire tr:last-child td {
+    border-bottom: none;
+}
+@media (max-width: 700px) {
+    .user-profile-card, .profile-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .table-inventaire, .user-profile-card {
+        padding: 10px;
+    }
+}
+</style>
+
+<div class="user-profile-card">
+    {% set initial = user.firstName is defined and user.firstName ? user.firstName[0] : (user.userIdentifier[0] ?? '?') %}
+    <div class="user-avatar">
+        {{ initial|upper }}
+    </div>
+    <div class="user-info">
+        <h3>{{ user.firstName|default(user.userIdentifier) }} {{ user.lastName|default('') }}</h3>
+        <div class="user-email">{{ user.email }}</div>
+        <div>
+            <span style="background:#eaf6fd;color:#00796b;border-radius:6px;padding:2px 10px;font-size:0.95em;font-weight:600;">
+                {{ user.roles[0]|replace({'ROLE_':''})|lower|capitalize }}
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="profile-stats">
+    <div class="profile-stat">
+        <div class="stat-value">{{ total }}</div>
+        <div class="stat-label">Équipements</div>
+    </div>
+    <div class="profile-stat">
+        <div class="stat-value">{{ transactions|length }}</div>
+        <div class="stat-label">Transactions</div>
+    </div>
+</div>
+
+<a href="{{ path('user_inventaire_ajout') }}" class="add-equipement-btn">
     ➕ Ajouter un équipement à mon inventaire
 </a>
+        <a href="{{ path('inventaire_index') }}" class="btn btn-secondary" style="margin-left:10px;">
+            Exporter les fichiers
+        </a>
 
-
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Équipement</th>
-                <th>Catégorie</th>
-                <th>Quantité</th>
-                <th>Type</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for transaction in transactions %}
-            <tr>
-                <td>{{ transaction.equipement.nom }}</td>
-                <td>{{ transaction.equipement.categorie.nom }}</td>
-                <td>{{ transaction.quantite }}</td>
-                <td>{{ transaction.type }}</td>
-                <td>{{ transaction.date|date('d/m/Y') }}</td>
-            </tr>
-            
-        {% else %}
-            <tr>
-                <td colspan="5">Aucune transaction trouvée.</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<table class="table-inventaire">
+    <thead>
+        <tr>
+            <th>Équipement</th>
+            <th>Catégorie</th>
+            <th>Quantité</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.equipement.name }}</td>
+            <td>{{ transaction.equipement.categorie.nom ?? '' }}</td>
+            <td>{{ transaction.quantite }}</td>
+            <td>{{ transaction.date|date('d/m/Y') }}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4" style="text-align:center;">Aucune transaction trouvée.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

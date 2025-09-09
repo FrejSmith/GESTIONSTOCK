@@ -1,0 +1,12 @@
+{# filepath: templates/equipement/modifier.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un équipement{% endblock %}
+
+{% block body %}
+    <h2>Modifier l'équipement</h2>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">Enregistrer</button>
+    {{ form_end(form) }}
+{% endblock %}
